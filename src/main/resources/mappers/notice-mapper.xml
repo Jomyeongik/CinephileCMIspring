@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="NoticeMapper">
+	<resultMap type="Notice" id="noticeResultMap">
+		<id property="noticeNo" 			column="NOTICE_NO"/>
+		<result property="noticeSubject" 	column="NOTICE_SUBJECT"/>
+		<result property="noticeContent" 	column="NOTICE_CONTENT"/>		
+		<result property="noticeWriter"  	column="NOTICE_WRITER"/>
+		<result property="noticeDate" 	 	column="NOTICE_DATE"/>
+		<result property="viewCount" 	 	column="VIEW_COUNT"/>
+	</resultMap>
+	<insert id="registerNotice">
+		INSERT INTO NOTICE_TBL VALUES(SEQ_NOTICE_NO.NEXTVAL,#{noticeSubject },#{noticeContent },'admin',DEFAULT,DEFAULT)
+	</insert>
+	<delete id="removeNotice">
+		DELETE NOTICE_TBL WHERE NOTICE_NO= #{noticeNo }
+	</delete>
+	<update id="modifyNotice">
+		UPDATE NOTICE_TBL SET NOTICE_SUBJECT = #{noticeSubject }, NOTICE_CONTENT=#{noticeContent } WHERE NOTICE_NO=#{noticeNo }
+	</update>
+	<select id="showOneByNo" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE_TBL WHERE NOTICE_NO = #{noticeNo }
+	</select>
+	<select id="showNoticeList" resultMap="noticeResultMap">
+		SELECT * FROM NOTICE_TBL ORDER BY NOTICE_NO DESC
+	</select>
+	<select id="getTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM NOTICE_TBL
+	</select>
+</mapper>
